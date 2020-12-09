@@ -58,19 +58,10 @@ class Tree:
         self.colour = ""
 
 
-# root = Tree(1)
-# root.children.append(Tree(1))
-# root.children.append(Tree(2))
-# root.children[0].children.append(Tree(3))
-# root.children[0].children.append(Tree(4))
-# root.children[1].children.append(Tree(5))
-# root.children[1].children.append(Tree(6))
-
-
 def createTree(tree, bag):
     tree.colour = bag
     for rule in bagRules[bag]:
-        newTree = Tree(rule["count"])
+        newTree = Tree(rule["count"] * tree.value)
         tree.children.append(newTree)
         createTree(newTree, rule["colour"])
 
@@ -81,11 +72,16 @@ createTree(root, MY_BAG)
 
 
 answer = 0
-subTotal = 0
 
 
 def getTree(tree):
-    print(tree.colour)
+    global answer
+    subTotal = 0
+    for branch in tree.children:
+        subTotal += branch.value
+
+    if tree.children:
+        answer += subTotal
     for branch in tree.children:
         getTree(branch)
 
